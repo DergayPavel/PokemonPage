@@ -1,0 +1,14 @@
+.box{
+    width: 150px;
+    height: 150px;
+    border: 1px solid gray;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+#main{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
