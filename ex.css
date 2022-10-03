@@ -1,18 +1,50 @@
+body{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.last,.next{
+    display: none;
+}
+.page{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.namePokemon{
+font-size: 18px;
+}
+
 .box{
     width: 250px;
     height: 250px;
     border: 1px solid gray;
     margin: 5px;
-    display: flex;
+    display: flex; 
     justify-content:center;
     flex-direction: column;
+    align-items: center;
 }
-.imgPocemon{
-    width: 200px;
-    height: 200px;
+.imgPokemon{
+    width: 150px;
+    height: 150px;
 }
 #main{
     display: flex;
+    width: 100%;
+    justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
+}
+#btnBox{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }

@@ -1,67 +1,117 @@
-getInfo1();
-var infoPocemonInPage;
+getInfo1('https://pokeapi.co/api/v2/pokemon/');
 var infoAbility=[];
-var nextLink;
+var nextLink,lastLink;
 
 
 
-async function getInfo1(){
-    let info1 = await fetch('https://pokeapi.co/api/v2/pokemon/');
+async function getInfo1(linkInfo){
+    let info1 = await fetch(linkInfo);
     let content = await info1.text();
-    infoPocemonInPage=JSON.parse(content).results;
-    console.log(infoPocemonInPage);
+    let infoPokemonInPage=JSON.parse(content).results;
+    nextLink=JSON.parse(content).next;
+    lastLink=JSON.parse(content).previous;
+    console.log(nextLink);
+    console.log(JSON.parse(content));
     if (info1.ok){
-        addPocemon();
+        addPokemon(infoPokemonInPage);
+        if(nextLink){
+            document.getElementById('next').style.display = 'flex';
+            //addNext();
+        }
+        if(nextLink){
+            document.getElementById('next').style.display = 'flex';
+            //addNext();
+        }
+        if(lastLink){
+            document.getElementById('last').style.display = 'flex';
+            //addNext();
+        }
+        else{
+            document.getElementById('last').style.display = 'none';
+        }
+        
     }
 }
 
-async function addAbilityImg(i,box){
-    let linkInfo=infoPocemonInPage[i].url;
+// function addNext(){
+//         btnNext = document.createElement('button');
+//         btnNext.className = "btnNext";
+//         btnNext.id='btnNext';
+//         btnNext.innerHTML='Next';
+//         btnBox.append(btnNext);
+// }
+
+async function addAbilityImg(i,box,infoPokemonInPage){
+    let linkInfo=infoPokemonInPage[i].url;
     let info = await fetch(linkInfo);
     let content = await info.text();
     let infoParse=JSON.parse(content)
     
     if(info.ok){
+        //let infoAbility=new Array;
         for(let k=0; k<JSON.parse(content).abilities.length;k++){
             infoAbility[k] = infoParse.abilities[k].ability.name;//.results;
         }
-        let abilityPocemon1 = document.createElement('span');
-        abilityPocemon1.className = 'abilityPocemon';
-        abilityPocemon1.innerHTML = infoAbility[0].toUpperCase();
-        box.append(abilityPocemon1);
+        let abilityPokemon1 = document.createElement('span');
+        abilityPokemon1.className = 'abilityPokemon';
+        abilityPokemon1.innerHTML = infoAbility[0].toUpperCase();
+        box.append(abilityPokemon1);
 
-        let abilityPocemon2 = document.createElement('span');
-        abilityPocemon2.className = 'abilityPocemon';
-        abilityPocemon2.innerHTML = infoAbility[1].toUpperCase();
-        box.append(abilityPocemon2);
+        let abilityPokemon2 = document.createElement('span');
+        abilityPokemon2.className = 'abilityPokemon';
+        abilityPokemon2.innerHTML = infoAbility[1].toUpperCase();
+        box.append(abilityPokemon2);
         
         img=infoParse.sprites.front_default
-        let imgPocemon = document.createElement('img');
-        imgPocemon.className = 'imgPocemon';
-        imgPocemon.src=img;
-        box.append(imgPocemon);
-
+        let imgPokemon = document.createElement('img');
+        imgPokemon.className = 'imgPokemon';
+        imgPokemon.src=img;
+        box.append(imgPokemon);
     }
 }
 
-function addPocemon (){
-        for(i=0;i<infoPocemonInPage.length;i++){
+function addPokemon (infoPokemonInPage){
+        let page = document.createElement('div');
+        page.className = "page";
+        page.id='page'
+        main.append(page);
+    for(i=0;i<infoPokemonInPage.length;i++){
         let box = document.createElement('div');
         box.className = "box";
-        main.append(box);
+        box.id='box';
+        page.append(box);
         
-        let namePocemon = document.createElement('div');
-        namePocemon.className = "namePocemon";
-        namePocemon.innerHTML = infoPocemonInPage[i].name.toUpperCase();
-        box.append(namePocemon);
-        addAbilityImg(i,box);
-        
+        let namePokemon = document.createElement('div');
+        namePokemon.className = "namePokemon";
+        namePokemon.innerHTML = infoPokemonInPage[i].name.toUpperCase();
+        box.append(namePokemon);
+        addAbilityImg(i,box,infoPokemonInPage);
     }
+} 
+
+function del() {
+    //document.getElementById('page').style.display = 'none';
+    let description=document.getElementById('page');
+    description.remove()
+    return;
+  }
+
+document
+    .querySelector('#next')
+    .addEventListener('click', nextPage);
+
+    document
+    .querySelector('#last')
+    .addEventListener('click', lastPage);
+
+function nextPage(){
+    getInfo1(nextLink);
+    del();
 }
-
-
-
-
+function lastPage(){
+    getInfo1(lastLink);
+    del();
+}
 
 
     
