@@ -14,32 +14,20 @@ async function getInfo1(linkInfo){
     console.log(JSON.parse(content));
     if (info1.ok){
         addPokemon(infoPokemonInPage);
-        if(nextLink){
-            document.getElementById('next').style.display = 'flex';
-            //addNext();
-        }
-        if(nextLink){
-            document.getElementById('next').style.display = 'flex';
-            //addNext();
-        }
         if(lastLink){
             document.getElementById('last').style.display = 'flex';
-            //addNext();
         }
         else{
             document.getElementById('last').style.display = 'none';
         }
-        
+        if(nextLink){
+            document.getElementById('next').style.display = 'flex';
+        }
+        else{
+            document.getElementById('next').style.display = 'none';
+        }
     }
 }
-
-// function addNext(){
-//         btnNext = document.createElement('button');
-//         btnNext.className = "btnNext";
-//         btnNext.id='btnNext';
-//         btnNext.innerHTML='Next';
-//         btnBox.append(btnNext);
-// }
 
 async function addAbilityImg(i,box,infoPokemonInPage){
     let linkInfo=infoPokemonInPage[i].url;
@@ -48,9 +36,8 @@ async function addAbilityImg(i,box,infoPokemonInPage){
     let infoParse=JSON.parse(content)
     
     if(info.ok){
-        //let infoAbility=new Array;
         for(let k=0; k<JSON.parse(content).abilities.length;k++){
-            infoAbility[k] = infoParse.abilities[k].ability.name;//.results;
+            infoAbility[k]=infoParse.abilities[k].ability.name;//.results;
         }
         let abilityPokemon1 = document.createElement('span');
         abilityPokemon1.className = 'abilityPokemon';
@@ -62,12 +49,48 @@ async function addAbilityImg(i,box,infoPokemonInPage){
         abilityPokemon2.innerHTML = infoAbility[1].toUpperCase();
         box.append(abilityPokemon2);
         
+        abilityPokemon1.style.display='none';
+        abilityPokemon2.style.display='none';
+
         img=infoParse.sprites.front_default
         let imgPokemon = document.createElement('img');
         imgPokemon.className = 'imgPokemon';
         imgPokemon.src=img;
         box.append(imgPokemon);
+        
+        let btnPokemon = document.createElement('button');
+        btnPokemon.className = infoPokemonInPage[i].name.toUpperCase();
+        btnPokemon.id="btn";
+        btnPokemon.innerHTML = 'Read more';
+        box.append(btnPokemon);
+        
+        btnPokemon.addEventListener('click',(e)=>{
+            // console.log(e.target);
+            // let name=e.target.className;
+            // console.log (name);
+            abilityPokemon1.style.display='flex';
+            abilityPokemon2.style.display='flex';
+            btnPokemon.style.display='none';
+
+            let btnPokemon2 = document.createElement('button');
+            btnPokemon2.className = infoPokemonInPage[i].name.toUpperCase();
+            btnPokemon2.id="btn2";
+            btnPokemon2.innerHTML = 'all pokemon';
+            box.append(btnPokemon2);
+
+            btnPokemon2.addEventListener('click',()=>{
+                abilityPokemon1.style.display='none';
+                abilityPokemon2.style.display='none';
+                btnPokemon2.style.display='none';
+                btnPokemon.style.display='flex';
+            });
+        });
     }
+}
+
+function getMore(name){
+
+
 }
 
 function addPokemon (infoPokemonInPage){
@@ -75,26 +98,26 @@ function addPokemon (infoPokemonInPage){
         page.className = "page";
         page.id='page'
         main.append(page);
+
     for(i=0;i<infoPokemonInPage.length;i++){
         let box = document.createElement('div');
         box.className = "box";
         box.id='box';
         page.append(box);
-        
+
         let namePokemon = document.createElement('div');
         namePokemon.className = "namePokemon";
         namePokemon.innerHTML = infoPokemonInPage[i].name.toUpperCase();
         box.append(namePokemon);
         addAbilityImg(i,box,infoPokemonInPage);
-    }
-} 
+    } 
+}
 
 function del() {
-    //document.getElementById('page').style.display = 'none';
     let description=document.getElementById('page');
     description.remove()
     return;
-  }
+}
 
 document
     .querySelector('#next')
@@ -108,10 +131,9 @@ function nextPage(){
     getInfo1(nextLink);
     del();
 }
+
 function lastPage(){
     getInfo1(lastLink);
     del();
 }
 
-
-    
