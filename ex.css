@@ -5,6 +5,7 @@ body{
     flex-direction: column;
     justify-content: center;
     width: 100%;
+    align-items: center;
 }
 
 .last,.next{
@@ -32,9 +33,10 @@ font-size: 18px;
     align-items: center;
     z-index: 1;
 }
-.imgPokemon{
+.imgPokemon,.imgPokemonBack{
     width: 150px;
     height: 150px;
+    display: flex;
 }
 #main{
     display: flex;
@@ -48,5 +50,15 @@ font-size: 18px;
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.newDisplay{
+    width: 500px;
+    height: 500px;
+    border: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 

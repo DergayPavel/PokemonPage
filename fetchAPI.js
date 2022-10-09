@@ -29,7 +29,7 @@ async function getInfo1(linkInfo){
     }
 }
 
-async function addAbilityImg(i,box,infoPokemonInPage){
+async function addAbilityImg(i,box,infoPokemonInPage,namePokemon){
     let linkInfo=infoPokemonInPage[i].url;
     let info = await fetch(linkInfo);
     let content = await info.text();
@@ -42,21 +42,21 @@ async function addAbilityImg(i,box,infoPokemonInPage){
         let abilityPokemon1 = document.createElement('span');
         abilityPokemon1.className = 'abilityPokemon';
         abilityPokemon1.innerHTML = infoAbility[0].toUpperCase();
-        box.append(abilityPokemon1);
 
         let abilityPokemon2 = document.createElement('span');
         abilityPokemon2.className = 'abilityPokemon';
         abilityPokemon2.innerHTML = infoAbility[1].toUpperCase();
-        box.append(abilityPokemon2);
-        
-        abilityPokemon1.style.display='none';
-        abilityPokemon2.style.display='none';
 
-        img=infoParse.sprites.front_default
+        img=infoParse.sprites.front_default;
         let imgPokemon = document.createElement('img');
         imgPokemon.className = 'imgPokemon';
         imgPokemon.src=img;
         box.append(imgPokemon);
+
+        img1=infoParse.sprites.back_default;
+        let imgPokemonBack = document.createElement('img');
+        imgPokemonBack.className = 'imgPokemonBack';
+        imgPokemonBack.src=img1;
         
         let btnPokemon = document.createElement('button');
         btnPokemon.className = infoPokemonInPage[i].name.toUpperCase();
@@ -64,25 +64,37 @@ async function addAbilityImg(i,box,infoPokemonInPage){
         btnPokemon.innerHTML = 'Read more';
         box.append(btnPokemon);
         
-        btnPokemon.addEventListener('click',(e)=>{
-            // console.log(e.target);
-            // let name=e.target.className;
-            // console.log (name);
-            abilityPokemon1.style.display='flex';
-            abilityPokemon2.style.display='flex';
-            btnPokemon.style.display='none';
+        btnPokemon.addEventListener('click',(e)=>{ 
+            main.style.display='none';
+            btnBox.style.display='none';
+            
+            
+            let newDisplay = document.createElement('div');
+            newDisplay.className = 'newDisplay';
+            newDisplay.id="newDisplay";
+            document.body.append(newDisplay);
+            
+            newDisplay.append(namePokemon);
 
-            let btnPokemon2 = document.createElement('button');
-            btnPokemon2.className = infoPokemonInPage[i].name.toUpperCase();
-            btnPokemon2.id="btn2";
-            btnPokemon2.innerHTML = 'all pokemon';
-            box.append(btnPokemon2);
+            newDisplay.append(imgPokemon);
+            newDisplay.append(imgPokemonBack);
 
-            btnPokemon2.addEventListener('click',()=>{
-                abilityPokemon1.style.display='none';
-                abilityPokemon2.style.display='none';
-                btnPokemon2.style.display='none';
-                btnPokemon.style.display='flex';
+            newDisplay.append(abilityPokemon1);
+            newDisplay.append(abilityPokemon2);
+
+            let btnMain = document.createElement('button');
+            btnMain.className = 'main';
+            btnMain.id="btnMain";
+            btnMain.innerHTML = 'Menu';
+            newDisplay.append(btnMain);
+            btnMain.addEventListener('click',(e)=>{ 
+                newDisplay.style.display='none';
+                box.append(namePokemon);
+                box.append(imgPokemon);
+                box.append(btnPokemon);
+                main.style.display='flex';
+                btnBox.style.display='flex';
+                
             });
         });
     }
@@ -109,7 +121,7 @@ function addPokemon (infoPokemonInPage){
         namePokemon.className = "namePokemon";
         namePokemon.innerHTML = infoPokemonInPage[i].name.toUpperCase();
         box.append(namePokemon);
-        addAbilityImg(i,box,infoPokemonInPage);
+        addAbilityImg(i,box,infoPokemonInPage,namePokemon);
     } 
 }
 
