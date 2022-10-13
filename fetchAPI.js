@@ -48,12 +48,18 @@ async function addAbilityImg(i,box,infoPokemonInPage,namePokemon){
         abilityPokemon2.innerHTML = infoAbility[1].toUpperCase();
 
         img=infoParse.sprites.front_default;
+        if(!img){
+            img="icons/NF.jpg"
+        }
         let imgPokemon = document.createElement('img');
         imgPokemon.className = 'imgPokemon';
         imgPokemon.src=img;
         box.append(imgPokemon);
 
         img1=infoParse.sprites.back_default;
+        if(!img1){
+            img1="icons/NF.jpg"
+        }
         let imgPokemonBack = document.createElement('img');
         imgPokemonBack.className = 'imgPokemonBack';
         imgPokemonBack.src=img1;
